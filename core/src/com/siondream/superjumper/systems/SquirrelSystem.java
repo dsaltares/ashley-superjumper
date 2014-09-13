@@ -16,6 +16,7 @@
 
 package com.siondream.superjumper.systems;
 
+import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
@@ -27,16 +28,22 @@ import com.siondream.superjumper.components.SquirrelComponent;
 public class SquirrelSystem extends IteratingSystem {
 	private boolean pause = false;
 	
+	private ComponentMapper<TransformComponent> tm;
+	private ComponentMapper<MovementComponent> mm;
+	
 	public SquirrelSystem() {
-		super(Family.getFamilyFor(SquirrelComponent.class,
-								  TransformComponent.class,
-								  MovementComponent.class));
+		super(Family.getFor(SquirrelComponent.class,
+							TransformComponent.class,
+							MovementComponent.class));
+		
+		tm = ComponentMapper.getFor(TransformComponent.class);
+		mm = ComponentMapper.getFor(MovementComponent.class);
 	}
 
 	@Override
 	public void processEntity(Entity entity, float deltaTime) {
-		TransformComponent t = entity.getComponent(TransformComponent.class);
-		MovementComponent mov = entity.getComponent(MovementComponent.class);
+		TransformComponent t = tm.get(entity);
+		MovementComponent mov = mm.get(entity);
 		
 		if (t.pos.x < SquirrelComponent.WIDTH * 0.5f) {
 			t.pos.x = SquirrelComponent.WIDTH * 0.5f;

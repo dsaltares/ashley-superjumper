@@ -16,6 +16,7 @@
 
 package com.siondream.superjumper.systems;
 
+import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
@@ -26,19 +27,29 @@ import com.siondream.superjumper.components.TransformComponent;
 import com.siondream.superjumper.components.StateComponent;
 
 public class BobSystem extends IteratingSystem {
-	private static final Family family = Family.getFamilyFor(BobComponent.class,
-															 StateComponent.class,
-															 TransformComponent.class,
-															 MovementComponent.class);
+	private static final Family family = Family.getFor(BobComponent.class,
+													   StateComponent.class,
+													   TransformComponent.class,
+													   MovementComponent.class);
 	
 	private float accelX = 0.0f;
 	private World world;
 	private boolean pause = false;
 	
+	private ComponentMapper<BobComponent> bm;
+	private ComponentMapper<StateComponent> sm;
+	private ComponentMapper<TransformComponent> tm;
+	private ComponentMapper<MovementComponent> mm;
+	
 	public BobSystem(World world) {
 		super(family);
 		
 		this.world = world;
+		
+		bm = ComponentMapper.getFor(BobComponent.class);
+		sm = ComponentMapper.getFor(StateComponent.class);
+		tm = ComponentMapper.getFor(TransformComponent.class);
+		mm = ComponentMapper.getFor(MovementComponent.class);
 	}
 	
 	public void setAccelX(float accelX) {
@@ -54,10 +65,10 @@ public class BobSystem extends IteratingSystem {
 	
 	@Override
 	public void processEntity(Entity entity, float deltaTime) {
-		TransformComponent t = entity.getComponent(TransformComponent.class);
-		StateComponent state = entity.getComponent(StateComponent.class);
-		MovementComponent mov = entity.getComponent(MovementComponent.class);
-		BobComponent bob = entity.getComponent(BobComponent.class);
+		TransformComponent t = tm.get(entity);
+		StateComponent state = sm.get(entity);
+		MovementComponent mov = mm.get(entity);
+		BobComponent bob = bm.get(entity);
 		
 		if (state.get() != BobComponent.STATE_HIT && t.pos.y <= 0.5f) {
 			hitPlatform(entity);
@@ -99,8 +110,8 @@ public class BobSystem extends IteratingSystem {
 	public void hitSquirrel (Entity entity) {
 		if (!family.matches(entity)) return;
 		
-		StateComponent state = entity.getComponent(StateComponent.class);
-		MovementComponent mov = entity.getComponent(MovementComponent.class);
+		StateComponent state = sm.get(entity);
+		MovementComponent mov = mm.get(entity);
 		
 		mov.velocity.set(0, 0);
 		state.set(BobComponent.STATE_HIT);
@@ -109,8 +120,8 @@ public class BobSystem extends IteratingSystem {
 	public void hitPlatform (Entity entity) {
 		if (!family.matches(entity)) return;
 		
-		StateComponent state = entity.getComponent(StateComponent.class);
-		MovementComponent mov = entity.getComponent(MovementComponent.class);
+		StateComponent state = sm.get(entity);
+		MovementComponent mov = mm.get(entity);
 		
 		mov.velocity.y = BobComponent.JUMP_VELOCITY;
 		state.set(BobComponent.STATE_JUMP);
@@ -119,8 +130,8 @@ public class BobSystem extends IteratingSystem {
 	public void hitSpring (Entity entity) {
 		if (!family.matches(entity)) return;
 		
-		StateComponent state = entity.getComponent(StateComponent.class);
-		MovementComponent mov = entity.getComponent(MovementComponent.class);
+		StateComponent state = sm.get(entity);
+		MovementComponent mov = mm.get(entity);
 		
 		mov.velocity.y = BobComponent.JUMP_VELOCITY * 1.5f;
 		state.set(BobComponent.STATE_JUMP);

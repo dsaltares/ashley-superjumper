@@ -16,6 +16,7 @@
 
 package com.siondream.superjumper.systems;
 
+import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
@@ -25,19 +26,25 @@ import com.siondream.superjumper.components.TransformComponent;
 public class CameraSystem extends IteratingSystem {
 	private boolean pause = false;
 	
+	private ComponentMapper<TransformComponent> tm;
+	private ComponentMapper<CameraComponent> cm;
+	
 	public CameraSystem() {
-		super(Family.getFamilyFor(CameraComponent.class));
+		super(Family.getFor(CameraComponent.class));
+		
+		tm = ComponentMapper.getFor(TransformComponent.class);
+		cm = ComponentMapper.getFor(CameraComponent.class);
 	}
 
 	@Override
 	public void processEntity(Entity entity, float deltaTime) {
-		CameraComponent cam = entity.getComponent(CameraComponent.class);
+		CameraComponent cam = cm.get(entity);
 		
 		if (cam.target == null) {
 			return;
 		}
 		
-		TransformComponent target = cam.target.getComponent(TransformComponent.class);
+		TransformComponent target = tm.get(cam.target);
 		
 		if (target == null) {
 			return;

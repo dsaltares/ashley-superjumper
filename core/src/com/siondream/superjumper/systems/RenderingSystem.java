@@ -18,6 +18,7 @@ package com.siondream.superjumper.systems;
 
 import java.util.Comparator;
 
+import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
@@ -38,16 +39,22 @@ public class RenderingSystem extends IteratingSystem {
 	private Comparator<Entity> comparator;
 	private OrthographicCamera cam;
 	
+	private ComponentMapper<TextureComponent> textureM;
+	private ComponentMapper<TransformComponent> transformM;
+	
 	public RenderingSystem(SpriteBatch batch) {
-		super(Family.getFamilyFor(TransformComponent.class, TextureComponent.class));
+		super(Family.getFor(TransformComponent.class, TextureComponent.class));
+		
+		textureM = ComponentMapper.getFor(TextureComponent.class);
+		transformM = ComponentMapper.getFor(TransformComponent.class);
 		
 		renderQueue = new Array<Entity>();
 		
 		comparator = new Comparator<Entity>() {
 			@Override
 			public int compare(Entity entityA, Entity entityB) {
-				return (int)Math.signum(entityB.getComponent(TransformComponent.class).pos.z -
-										entityA.getComponent(TransformComponent.class).pos.z);
+				return (int)Math.signum(transformM.get(entityB).pos.z -
+										transformM.get(entityA).pos.z);
 			}
 		};
 		
@@ -68,13 +75,13 @@ public class RenderingSystem extends IteratingSystem {
 		batch.begin();
 		
 		for (Entity entity : renderQueue) {
-			TextureComponent tex = entity.getComponent(TextureComponent.class);
+			TextureComponent tex = textureM.get(entity);
 			
 			if (tex.region == null) {
 				continue;
 			}
 			
-			TransformComponent t = entity.getComponent(TransformComponent.class);
+			TransformComponent t = transformM.get(entity);
 		
 			float width = tex.region.getRegionWidth();
 			float height = tex.region.getRegionHeight();

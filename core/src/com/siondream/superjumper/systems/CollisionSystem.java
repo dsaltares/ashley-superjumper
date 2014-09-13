@@ -18,11 +18,12 @@ package com.siondream.superjumper.systems;
 
 import java.util.Random;
 
+import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
-import com.badlogic.ashley.utils.ImmutableIntMap;
+import com.badlogic.ashley.utils.ImmutableArray;
 import com.siondream.superjumper.World;
 import com.siondream.superjumper.components.BobComponent;
 import com.siondream.superjumper.components.BoundsComponent;
@@ -39,6 +40,11 @@ import com.siondream.superjumper.components.SquirrelComponent;
 public class CollisionSystem extends EntitySystem {
 	private boolean pause = false;
 	
+	private ComponentMapper<BoundsComponent> bm;
+	private ComponentMapper<MovementComponent> mm;
+	private ComponentMapper<StateComponent> sm;
+	private ComponentMapper<TransformComponent> tm;
+	
 	public static interface CollisionListener {		
 		public void jump ();
 		public void highJump ();
@@ -50,28 +56,33 @@ public class CollisionSystem extends EntitySystem {
 	private World world;
 	private CollisionListener listener;
 	private Random rand = new Random();
-	private ImmutableIntMap<Entity> bobs;
-	private ImmutableIntMap<Entity> coins;
-	private ImmutableIntMap<Entity> squirrels;
-	private ImmutableIntMap<Entity> springs;
-	private ImmutableIntMap<Entity> castles;
-	private ImmutableIntMap<Entity> platforms;
+	private ImmutableArray<Entity> bobs;
+	private ImmutableArray<Entity> coins;
+	private ImmutableArray<Entity> squirrels;
+	private ImmutableArray<Entity> springs;
+	private ImmutableArray<Entity> castles;
+	private ImmutableArray<Entity> platforms;
 	
 	public CollisionSystem(World world, CollisionListener listener) {
 		this.world = world;
 		this.listener = listener;
+		
+		bm = ComponentMapper.getFor(BoundsComponent.class);
+		mm = ComponentMapper.getFor(MovementComponent.class);
+		sm = ComponentMapper.getFor(StateComponent.class);
+		tm = ComponentMapper.getFor(TransformComponent.class);
 	}
 	
 	@Override
 	public void addedToEngine(Engine engine) {
 		this.engine = engine;
 		
-		bobs = engine.getEntitiesFor(Family.getFamilyFor(BobComponent.class, BoundsComponent.class, TransformComponent.class, StateComponent.class));
-		coins = engine.getEntitiesFor(Family.getFamilyFor(CoinComponent.class, BoundsComponent.class));
-		squirrels = engine.getEntitiesFor(Family.getFamilyFor(SquirrelComponent.class, BoundsComponent.class));
-		springs = engine.getEntitiesFor(Family.getFamilyFor(SpringComponent.class, BoundsComponent.class, TransformComponent.class));
-		castles = engine.getEntitiesFor(Family.getFamilyFor(CastleComponent.class, BoundsComponent.class));
-		platforms = engine.getEntitiesFor(Family.getFamilyFor(PlatformComponent.class, BoundsComponent.class, TransformComponent.class));
+		bobs = engine.getEntitiesFor(Family.getFor(BobComponent.class, BoundsComponent.class, TransformComponent.class, StateComponent.class));
+		coins = engine.getEntitiesFor(Family.getFor(CoinComponent.class, BoundsComponent.class));
+		squirrels = engine.getEntitiesFor(Family.getFor(SquirrelComponent.class, BoundsComponent.class));
+		springs = engine.getEntitiesFor(Family.getFor(SpringComponent.class, BoundsComponent.class, TransformComponent.class));
+		castles = engine.getEntitiesFor(Family.getFor(CastleComponent.class, BoundsComponent.class));
+		platforms = engine.getEntitiesFor(Family.getFor(PlatformComponent.class, BoundsComponent.class, TransformComponent.class));
 	}
 	
 	@Override
@@ -79,24 +90,28 @@ public class CollisionSystem extends EntitySystem {
 		BobSystem bobSystem = engine.getSystem(BobSystem.class);
 		PlatformSystem platformSystem = engine.getSystem(PlatformSystem.class);
 		
-		for (Entity bob : bobs.values()) {
-			StateComponent bobState = bob.getComponent(StateComponent.class);
+		for (int i = 0; i < bobs.size(); ++i) {
+			Entity bob = bobs.get(i);
+			
+			StateComponent bobState = sm.get(bob);
 			
 			if (bobState.get() == BobComponent.STATE_HIT) {
 				continue;
 			}
 			
-			MovementComponent bobMov = bob.getComponent(MovementComponent.class);
-			BoundsComponent bobBounds = bob.getComponent(BoundsComponent.class);
+			MovementComponent bobMov = mm.get(bob);
+			BoundsComponent bobBounds = bm.get(bob);
 			
 			if (bobMov.velocity.y < 0.0f) {
-				TransformComponent bobPos = bob.getComponent(TransformComponent.class);
+				TransformComponent bobPos = tm.get(bob);
 				
-				for (Entity platform : platforms.values()) {
-					TransformComponent platPos = platform.getComponent(TransformComponent.class);
+				for (int j = 0; j < platforms.size(); ++j) {
+					Entity platform = platforms.get(j);
+					
+					TransformComponent platPos = tm.get(platform);
 					
 					if (bobPos.pos.y > platPos.pos.y) {
-						BoundsComponent platBounds = platform.getComponent(BoundsComponent.class);
+						BoundsComponent platBounds = bm.get(platform);
 						
 						if (bobBounds.bounds.overlaps(platBounds.bounds)) {
 							bobSystem.hitPlatform(bob);
@@ -110,9 +125,11 @@ public class CollisionSystem extends EntitySystem {
 					}
 				}
 				
-				for (Entity spring : springs.values()) {
-					TransformComponent springPos = spring.getComponent(TransformComponent.class);
-					BoundsComponent springBounds = spring.getComponent(BoundsComponent.class);
+				for (int j = 0; j < springs.size(); ++j) {
+					Entity spring = springs.get(j);
+					
+					TransformComponent springPos = tm.get(spring);
+					BoundsComponent springBounds = bm.get(spring);
 					
 					if (bobPos.pos.y > springPos.pos.y) {
 						if (bobBounds.bounds.overlaps(springBounds.bounds)) {
@@ -123,8 +140,10 @@ public class CollisionSystem extends EntitySystem {
 				}
 			};
 
-			for (Entity squirrel : squirrels.values()) {
-				BoundsComponent squirrelBounds = squirrel.getComponent(BoundsComponent.class);
+			for (int j = 0; j < squirrels.size(); ++j) {
+				Entity squirrel = squirrels.get(j);
+				
+				BoundsComponent squirrelBounds = bm.get(squirrel);
 				
 				if (squirrelBounds.bounds.overlaps(bobBounds.bounds)) {
 					bobSystem.hitSquirrel(bob);
@@ -132,8 +151,10 @@ public class CollisionSystem extends EntitySystem {
 				}
 			}
 			
-			for (Entity coin : coins.values()) {
-				BoundsComponent coinBounds = coin.getComponent(BoundsComponent.class);
+			for (int j = 0; j < coins.size(); ++j) {
+				Entity coin = coins.get(j);
+				
+				BoundsComponent coinBounds = bm.get(coin);
 				
 				if (coinBounds.bounds.overlaps(bobBounds.bounds)) {
 					coin.add(new RemovalComponent());
@@ -142,8 +163,10 @@ public class CollisionSystem extends EntitySystem {
 				}
 			}
 			
-			for (Entity castle : castles.values()) {
-				BoundsComponent castleBounds = castle.getComponent(BoundsComponent.class);
+			for (int j = 0; j < castles.size(); ++j) {
+				Entity castle = castles.get(j);
+				
+				BoundsComponent castleBounds = bm.get(castle);
 				
 				if (castleBounds.bounds.overlaps(bobBounds.bounds)) {
 					world.state = World.WORLD_STATE_NEXT_LEVEL;

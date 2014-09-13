@@ -16,6 +16,7 @@
 
 package com.siondream.superjumper.systems;
 
+import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
@@ -24,13 +25,17 @@ import com.siondream.superjumper.components.StateComponent;
 public class StateSystem extends IteratingSystem {
 	private boolean pause = false;
 	
+	private ComponentMapper<StateComponent> sm;
+	
 	public StateSystem() {
-		super(Family.getFamilyFor(StateComponent.class));
+		super(Family.getFor(StateComponent.class));
+		
+		sm = ComponentMapper.getFor(StateComponent.class);
 	}
 
 	@Override
 	public void processEntity(Entity entity, float deltaTime) {
-		entity.getComponent(StateComponent.class).time += deltaTime;
+		sm.get(entity).time += deltaTime;
 	}
 	
 	@Override

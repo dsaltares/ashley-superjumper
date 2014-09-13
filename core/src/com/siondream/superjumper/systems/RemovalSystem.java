@@ -20,24 +20,24 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
-import com.badlogic.ashley.utils.ImmutableIntMap;
+import com.badlogic.ashley.utils.ImmutableArray;
 import com.siondream.superjumper.components.RemovalComponent;
 
 public class RemovalSystem extends EntitySystem {
 	private Engine engine;
-	private ImmutableIntMap<Entity> entities;
+	private ImmutableArray<Entity> entities;
 	private boolean pause = false;
 	
 	@Override
 	public void addedToEngine(Engine engine) {
 		this.engine = engine;
-		entities = engine.getEntitiesFor(Family.getFamilyFor(RemovalComponent.class));
+		entities = engine.getEntitiesFor(Family.getFor(RemovalComponent.class));
 	}
 
 	@Override
 	public void update(float deltaTime) {
 		while (entities.size() > 0) {
-			engine.removeEntity(entities.values().next());
+			engine.removeEntity(entities.get(0));
 		}
 	}
 	

@@ -16,6 +16,7 @@
 
 package com.siondream.superjumper.systems;
 
+import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
@@ -26,13 +27,17 @@ import com.siondream.superjumper.components.MovementComponent;
 public class GravitySystem extends IteratingSystem {
 	private boolean pause = false;
 	
+	private ComponentMapper<MovementComponent> mm;
+	
 	public GravitySystem() {
-		super(Family.getFamilyFor(GravityComponent.class, MovementComponent.class));
+		super(Family.getFor(GravityComponent.class, MovementComponent.class));
+		
+		mm = ComponentMapper.getFor(MovementComponent.class);
 	}
 
 	@Override
 	public void processEntity(Entity entity, float deltaTime) {
-		MovementComponent mov = entity.getComponent(MovementComponent.class);
+		MovementComponent mov = mm.get(entity);
 		mov.velocity.add(World.gravity.x * deltaTime, World.gravity.y * deltaTime);
 	}
 	

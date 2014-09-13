@@ -16,6 +16,7 @@
 
 package com.siondream.superjumper.systems;
 
+import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
@@ -27,23 +28,33 @@ import com.siondream.superjumper.components.RemovalComponent;
 import com.siondream.superjumper.components.StateComponent;
 
 public class PlatformSystem extends IteratingSystem {
-	private static final Family family = Family.getFamilyFor(PlatformComponent.class,
-															 StateComponent.class,
-															 TransformComponent.class,
-														  	 MovementComponent.class);
+	private static final Family family = Family.getFor(PlatformComponent.class,
+													   StateComponent.class,
+												       TransformComponent.class,
+													   MovementComponent.class);
 	private boolean pause = false;
+	
+	private ComponentMapper<TransformComponent> tm;
+	private ComponentMapper<MovementComponent> mm;
+	private ComponentMapper<PlatformComponent> pm;
+	private ComponentMapper<StateComponent> sm;
 	
 	public PlatformSystem() {
 		super(family);
+		
+		tm = ComponentMapper.getFor(TransformComponent.class);
+		mm = ComponentMapper.getFor(MovementComponent.class);
+		pm = ComponentMapper.getFor(PlatformComponent.class);
+		sm = ComponentMapper.getFor(StateComponent.class);
 	}
 
 	@Override
 	public void processEntity(Entity entity, float deltaTime) {
-		PlatformComponent platform = entity.getComponent(PlatformComponent.class);
+		PlatformComponent platform = pm.get(entity);
 		
 		if (platform.type == PlatformComponent.TYPE_MOVING) {
-			TransformComponent pos = entity.getComponent(TransformComponent.class);
-			MovementComponent mov = entity.getComponent(MovementComponent.class);
+			TransformComponent pos = tm.get(entity);
+			MovementComponent mov = mm.get(entity);
 
 			if (pos.pos.x < PlatformComponent.WIDTH / 2) {
 				mov.velocity.x = -mov.velocity.x;
@@ -55,7 +66,7 @@ public class PlatformSystem extends IteratingSystem {
 			}
 		}
 		
-		StateComponent state = entity.getComponent(StateComponent.class);
+		StateComponent state = sm.get(entity);
 		
 		if (state.get() == PlatformComponent.STATE_PULVERIZING &&
 			state.time > PlatformComponent.PULVERIZE_TIME) {
@@ -66,8 +77,8 @@ public class PlatformSystem extends IteratingSystem {
 	
 	public void pulverize (Entity entity) {
 		if (family.matches(entity)) {
-			StateComponent state = entity.getComponent(StateComponent.class);
-			MovementComponent mov = entity.getComponent(MovementComponent.class);
+			StateComponent state = sm.get(entity);
+			MovementComponent mov = mm.get(entity);
 			
 			state.set(PlatformComponent.STATE_PULVERIZING);
 			mov.velocity.x = 0;

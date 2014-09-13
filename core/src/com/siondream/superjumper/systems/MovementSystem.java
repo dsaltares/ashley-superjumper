@@ -16,6 +16,7 @@
 
 package com.siondream.superjumper.systems;
 
+import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
@@ -27,14 +28,20 @@ public class MovementSystem extends IteratingSystem {
 	private Vector2 tmp = new Vector2();
 	private boolean pause = false;
 	
+	private ComponentMapper<TransformComponent> tm;
+	private ComponentMapper<MovementComponent> mm;
+	
 	public MovementSystem() {
-		super(Family.getFamilyFor(TransformComponent.class, MovementComponent.class));
+		super(Family.getFor(TransformComponent.class, MovementComponent.class));
+		
+		tm = ComponentMapper.getFor(TransformComponent.class);
+		mm = ComponentMapper.getFor(MovementComponent.class);
 	}
 
 	@Override
 	public void processEntity(Entity entity, float deltaTime) {
-		TransformComponent pos = entity.getComponent(TransformComponent.class);
-		MovementComponent mov = entity.getComponent(MovementComponent.class);
+		TransformComponent pos = tm.get(entity);
+		MovementComponent mov = mm.get(entity);;
 		
 		tmp.set(mov.accel).scl(deltaTime);
 		mov.velocity.add(tmp);
