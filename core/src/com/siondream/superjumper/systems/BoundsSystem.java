@@ -24,7 +24,6 @@ import com.siondream.superjumper.components.BoundsComponent;
 import com.siondream.superjumper.components.TransformComponent;
 
 public class BoundsSystem extends IteratingSystem {
-	private boolean pause = false;
 	
 	private ComponentMapper<TransformComponent> tm;
 	private ComponentMapper<BoundsComponent> bm;
@@ -43,14 +42,5 @@ public class BoundsSystem extends IteratingSystem {
 		
 		bounds.bounds.x = pos.pos.x - bounds.bounds.width * 0.5f;
 		bounds.bounds.y = pos.pos.y - bounds.bounds.height * 0.5f;
-	}
-	
-	@Override
-	public boolean checkProcessing() {
-		return !pause;
-	}
-	
-	public void pause(boolean pause) {
-		this.pause = pause;
 	}
 }

@@ -33,13 +33,10 @@ import com.siondream.superjumper.components.MovementComponent;
 import com.siondream.superjumper.components.PlatformComponent;
 import com.siondream.superjumper.components.StateComponent;
 import com.siondream.superjumper.components.TransformComponent;
-import com.siondream.superjumper.components.RemovalComponent;
 import com.siondream.superjumper.components.SpringComponent;
 import com.siondream.superjumper.components.SquirrelComponent;
 
 public class CollisionSystem extends EntitySystem {
-	private boolean pause = false;
-	
 	private ComponentMapper<BoundsComponent> bm;
 	private ComponentMapper<MovementComponent> mm;
 	private ComponentMapper<StateComponent> sm;
@@ -157,7 +154,7 @@ public class CollisionSystem extends EntitySystem {
 				BoundsComponent coinBounds = bm.get(coin);
 				
 				if (coinBounds.bounds.overlaps(bobBounds.bounds)) {
-					coin.add(new RemovalComponent());
+					engine.removeEntity(coin);
 					listener.coin();
 					world.score += CoinComponent.SCORE;
 				}
@@ -173,14 +170,5 @@ public class CollisionSystem extends EntitySystem {
 				}
 			}
 		}
-	}
-	
-	@Override
-	public boolean checkProcessing() {
-		return !pause;
-	}
-	
-	public void pause(boolean pause) {
-		this.pause = pause;
 	}
 }

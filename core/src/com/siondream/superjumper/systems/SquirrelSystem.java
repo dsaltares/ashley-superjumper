@@ -26,8 +26,7 @@ import com.siondream.superjumper.components.TransformComponent;
 import com.siondream.superjumper.components.SquirrelComponent;
 
 public class SquirrelSystem extends IteratingSystem {
-	private boolean pause = false;
-	
+
 	private ComponentMapper<TransformComponent> tm;
 	private ComponentMapper<MovementComponent> mm;
 	
@@ -55,14 +54,5 @@ public class SquirrelSystem extends IteratingSystem {
 		}
 		
 		t.scale.x = mov.velocity.x < 0.0f ? Math.abs(t.scale.x) * -1.0f : Math.abs(t.scale.x);
-	}
-	
-	@Override
-	public boolean checkProcessing() {
-		return !pause;
-	}
-	
-	public void pause(boolean pause) {
-		this.pause = pause;
 	}
 }

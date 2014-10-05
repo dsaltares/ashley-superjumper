@@ -22,9 +22,7 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.siondream.superjumper.components.StateComponent;
 
-public class StateSystem extends IteratingSystem {
-	private boolean pause = false;
-	
+public class StateSystem extends IteratingSystem {	
 	private ComponentMapper<StateComponent> sm;
 	
 	public StateSystem() {
@@ -36,14 +34,5 @@ public class StateSystem extends IteratingSystem {
 	@Override
 	public void processEntity(Entity entity, float deltaTime) {
 		sm.get(entity).time += deltaTime;
-	}
-	
-	@Override
-	public boolean checkProcessing() {
-		return !pause;
-	}
-	
-	public void pause(boolean pause) {
-		this.pause = pause;
 	}
 }

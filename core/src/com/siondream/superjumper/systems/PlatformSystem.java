@@ -17,6 +17,7 @@
 package com.siondream.superjumper.systems;
 
 import com.badlogic.ashley.core.ComponentMapper;
+import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
@@ -24,7 +25,6 @@ import com.siondream.superjumper.World;
 import com.siondream.superjumper.components.MovementComponent;
 import com.siondream.superjumper.components.PlatformComponent;
 import com.siondream.superjumper.components.TransformComponent;
-import com.siondream.superjumper.components.RemovalComponent;
 import com.siondream.superjumper.components.StateComponent;
 
 public class PlatformSystem extends IteratingSystem {
@@ -32,7 +32,7 @@ public class PlatformSystem extends IteratingSystem {
 													   StateComponent.class,
 												       TransformComponent.class,
 													   MovementComponent.class);
-	private boolean pause = false;
+	private Engine engine;
 	
 	private ComponentMapper<TransformComponent> tm;
 	private ComponentMapper<MovementComponent> mm;
@@ -46,6 +46,12 @@ public class PlatformSystem extends IteratingSystem {
 		mm = ComponentMapper.getFor(MovementComponent.class);
 		pm = ComponentMapper.getFor(PlatformComponent.class);
 		sm = ComponentMapper.getFor(StateComponent.class);
+	}
+	
+	@Override
+	public void addedToEngine(Engine engine) {
+		super.addedToEngine(engine);
+		this.engine = engine;
 	}
 
 	@Override
@@ -71,7 +77,7 @@ public class PlatformSystem extends IteratingSystem {
 		if (state.get() == PlatformComponent.STATE_PULVERIZING &&
 			state.time > PlatformComponent.PULVERIZE_TIME) {
 			
-			entity.add(new RemovalComponent());
+			engine.removeEntity(entity);
 		}
 	}
 	
@@ -83,14 +89,5 @@ public class PlatformSystem extends IteratingSystem {
 			state.set(PlatformComponent.STATE_PULVERIZING);
 			mov.velocity.x = 0;
 		}
-	}
-	
-	@Override
-	public boolean checkProcessing() {
-		return !pause;
-	}
-	
-	public void pause(boolean pause) {
-		this.pause = pause;
 	}
 }

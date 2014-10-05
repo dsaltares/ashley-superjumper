@@ -91,7 +91,7 @@ project(":core") {
 
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
-        compile "com.badlogicgames.ashley:ashley:1.1.0"
+        compile "com.badlogicgames.ashley:ashley:1.2.1-SNAPSHOT"
     }
 }
 

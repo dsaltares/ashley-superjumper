@@ -26,7 +26,6 @@ import com.siondream.superjumper.components.TransformComponent;
 
 public class BackgroundSystem extends IteratingSystem {
 	private OrthographicCamera camera;
-	private boolean pause = false;
 	private ComponentMapper<TransformComponent> tm;
 	
 	public BackgroundSystem() {
@@ -42,14 +41,5 @@ public class BackgroundSystem extends IteratingSystem {
 	public void processEntity(Entity entity, float deltaTime) {
 		TransformComponent t = tm.get(entity);
 		t.pos.set(camera.position.x, camera.position.y, 10.0f);
-	}
-	
-	@Override
-	public boolean checkProcessing() {
-		return !pause;
-	}
-	
-	public void pause(boolean pause) {
-		this.pause = pause;
 	}
 }

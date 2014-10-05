@@ -36,6 +36,7 @@ public class SuperJumper extends Game {
 	@Override
 	public void render() {
 		GL20 gl = Gdx.gl;
+		gl.glClearColor(0.0f, 1.0f, 0.0f, 0.0f);
 		gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		super.render();

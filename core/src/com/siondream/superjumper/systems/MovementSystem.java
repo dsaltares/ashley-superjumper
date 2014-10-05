@@ -26,8 +26,7 @@ import com.siondream.superjumper.components.TransformComponent;
 
 public class MovementSystem extends IteratingSystem {
 	private Vector2 tmp = new Vector2();
-	private boolean pause = false;
-	
+
 	private ComponentMapper<TransformComponent> tm;
 	private ComponentMapper<MovementComponent> mm;
 	
@@ -48,14 +47,5 @@ public class MovementSystem extends IteratingSystem {
 		
 		tmp.set(mov.velocity).scl(deltaTime);
 		pos.pos.add(tmp.x, tmp.y, 0.0f);
-	}
-	
-	@Override
-	public boolean checkProcessing() {
-		return !pause;
-	}
-	
-	public void pause(boolean pause) {
-		this.pause = pause;
 	}
 }

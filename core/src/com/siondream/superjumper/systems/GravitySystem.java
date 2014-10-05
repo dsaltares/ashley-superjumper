@@ -25,8 +25,6 @@ import com.siondream.superjumper.components.GravityComponent;
 import com.siondream.superjumper.components.MovementComponent;
 
 public class GravitySystem extends IteratingSystem {
-	private boolean pause = false;
-	
 	private ComponentMapper<MovementComponent> mm;
 	
 	public GravitySystem() {
@@ -39,14 +37,5 @@ public class GravitySystem extends IteratingSystem {
 	public void processEntity(Entity entity, float deltaTime) {
 		MovementComponent mov = mm.get(entity);
 		mov.velocity.add(World.gravity.x * deltaTime, World.gravity.y * deltaTime);
-	}
-	
-	@Override
-	public boolean checkProcessing() {
-		return !pause;
-	}
-	
-	public void pause(boolean pause) {
-		this.pause = pause;
 	}
 }

@@ -34,7 +34,6 @@ import com.siondream.superjumper.systems.CollisionSystem.CollisionListener;
 import com.siondream.superjumper.systems.GravitySystem;
 import com.siondream.superjumper.systems.MovementSystem;
 import com.siondream.superjumper.systems.PlatformSystem;
-import com.siondream.superjumper.systems.RemovalSystem;
 import com.siondream.superjumper.systems.RenderingSystem;
 import com.siondream.superjumper.systems.SquirrelSystem;
 import com.siondream.superjumper.systems.StateSystem;
@@ -107,7 +106,6 @@ public class GameScreen extends ScreenAdapter {
 		engine.addSystem(new AnimationSystem());
 		engine.addSystem(new CollisionSystem(world, collisionListener));
 		engine.addSystem(new RenderingSystem(game.batcher));
-		engine.addSystem(new RemovalSystem());
 		
 		engine.getSystem(BackgroundSystem.class).setCamera(engine.getSystem(RenderingSystem.class).getCamera());
 		
@@ -286,27 +284,27 @@ public class GameScreen extends ScreenAdapter {
 	}
 	
 	private void pauseSystems() {
-		engine.getSystem(BobSystem.class).pause(true);
-		engine.getSystem(SquirrelSystem.class).pause(true);
-		engine.getSystem(PlatformSystem.class).pause(true);
-		engine.getSystem(GravitySystem.class).pause(true);
-		engine.getSystem(MovementSystem.class).pause(true);
-		engine.getSystem(BoundsSystem.class).pause(true);
-		engine.getSystem(StateSystem.class).pause(true);
-		engine.getSystem(AnimationSystem.class).pause(true);
-		engine.getSystem(CollisionSystem.class).pause(true);
+		engine.getSystem(BobSystem.class).setProcessing(false);
+		engine.getSystem(SquirrelSystem.class).setProcessing(false);
+		engine.getSystem(PlatformSystem.class).setProcessing(false);
+		engine.getSystem(GravitySystem.class).setProcessing(false);
+		engine.getSystem(MovementSystem.class).setProcessing(false);
+		engine.getSystem(BoundsSystem.class).setProcessing(false);
+		engine.getSystem(StateSystem.class).setProcessing(false);
+		engine.getSystem(AnimationSystem.class).setProcessing(false);
+		engine.getSystem(CollisionSystem.class).setProcessing(false);
 	}
 	
 	private void resumeSystems() {
-		engine.getSystem(BobSystem.class).pause(false);
-		engine.getSystem(SquirrelSystem.class).pause(false);
-		engine.getSystem(PlatformSystem.class).pause(false);
-		engine.getSystem(GravitySystem.class).pause(false);
-		engine.getSystem(MovementSystem.class).pause(false);
-		engine.getSystem(BoundsSystem.class).pause(false);
-		engine.getSystem(StateSystem.class).pause(false);
-		engine.getSystem(AnimationSystem.class).pause(false);
-		engine.getSystem(CollisionSystem.class).pause(false);
+		engine.getSystem(BobSystem.class).setProcessing(true);
+		engine.getSystem(SquirrelSystem.class).setProcessing(true);
+		engine.getSystem(PlatformSystem.class).setProcessing(true);
+		engine.getSystem(GravitySystem.class).setProcessing(true);
+		engine.getSystem(MovementSystem.class).setProcessing(true);
+		engine.getSystem(BoundsSystem.class).setProcessing(true);
+		engine.getSystem(StateSystem.class).setProcessing(true);
+		engine.getSystem(AnimationSystem.class).setProcessing(true);
+		engine.getSystem(CollisionSystem.class).setProcessing(true);
 	}
 
 	@Override

@@ -26,7 +26,6 @@ import com.siondream.superjumper.components.StateComponent;
 import com.siondream.superjumper.components.TextureComponent;
 
 public class AnimationSystem extends IteratingSystem {
-	private boolean pause = false;
 	private ComponentMapper<TextureComponent> tm;
 	private ComponentMapper<AnimationComponent> am;
 	private ComponentMapper<StateComponent> sm;
@@ -43,6 +42,7 @@ public class AnimationSystem extends IteratingSystem {
 
 	@Override
 	public void processEntity(Entity entity, float deltaTime) {
+		long id = entity.getId();
 		TextureComponent tex = tm.get(entity);
 		AnimationComponent anim = am.get(entity);
 		StateComponent state = sm.get(entity);
@@ -54,14 +54,5 @@ public class AnimationSystem extends IteratingSystem {
 		}
 		
 		state.time += deltaTime;
-	}
-	
-	@Override
-	public boolean checkProcessing() {
-		return !pause;
-	}
-	
-	public void pause(boolean pause) {
-		this.pause = pause;
 	}
 }

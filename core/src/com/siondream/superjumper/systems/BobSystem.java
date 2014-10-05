@@ -34,7 +34,6 @@ public class BobSystem extends IteratingSystem {
 	
 	private float accelX = 0.0f;
 	private World world;
-	private boolean pause = false;
 	
 	private ComponentMapper<BobComponent> bm;
 	private ComponentMapper<StateComponent> sm;
@@ -135,14 +134,5 @@ public class BobSystem extends IteratingSystem {
 		
 		mov.velocity.y = BobComponent.JUMP_VELOCITY * 1.5f;
 		state.set(BobComponent.STATE_JUMP);
-	}
-	
-	@Override
-	public boolean checkProcessing() {
-		return !pause;
-	}
-	
-	public void pause(boolean pause) {
-		this.pause = pause;
 	}
 }

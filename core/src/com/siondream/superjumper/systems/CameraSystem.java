@@ -24,7 +24,6 @@ import com.siondream.superjumper.components.CameraComponent;
 import com.siondream.superjumper.components.TransformComponent;
 
 public class CameraSystem extends IteratingSystem {
-	private boolean pause = false;
 	
 	private ComponentMapper<TransformComponent> tm;
 	private ComponentMapper<CameraComponent> cm;
@@ -51,14 +50,5 @@ public class CameraSystem extends IteratingSystem {
 		}
 		
 		cam.camera.position.y = Math.max(cam.camera.position.y, target.pos.y);
-	}
-	
-	@Override
-	public boolean checkProcessing() {
-		return !pause;
-	}
-	
-	public void pause(boolean pause) {
-		this.pause = pause;
 	}
 }
