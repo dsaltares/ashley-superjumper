@@ -29,7 +29,7 @@ public class BoundsSystem extends IteratingSystem {
 	private ComponentMapper<BoundsComponent> bm;
 	
 	public BoundsSystem() {
-		super(Family.getFor(BoundsComponent.class, TransformComponent.class));
+		super(Family.all(BoundsComponent.class, TransformComponent.class).get());
 		
 		tm = ComponentMapper.getFor(TransformComponent.class);
 		bm = ComponentMapper.getFor(BoundsComponent.class);

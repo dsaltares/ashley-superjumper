@@ -74,12 +74,12 @@ public class CollisionSystem extends EntitySystem {
 	public void addedToEngine(Engine engine) {
 		this.engine = engine;
 		
-		bobs = engine.getEntitiesFor(Family.getFor(BobComponent.class, BoundsComponent.class, TransformComponent.class, StateComponent.class));
-		coins = engine.getEntitiesFor(Family.getFor(CoinComponent.class, BoundsComponent.class));
-		squirrels = engine.getEntitiesFor(Family.getFor(SquirrelComponent.class, BoundsComponent.class));
-		springs = engine.getEntitiesFor(Family.getFor(SpringComponent.class, BoundsComponent.class, TransformComponent.class));
-		castles = engine.getEntitiesFor(Family.getFor(CastleComponent.class, BoundsComponent.class));
-		platforms = engine.getEntitiesFor(Family.getFor(PlatformComponent.class, BoundsComponent.class, TransformComponent.class));
+		bobs = engine.getEntitiesFor(Family.all(BobComponent.class, BoundsComponent.class, TransformComponent.class, StateComponent.class).get());
+		coins = engine.getEntitiesFor(Family.all(CoinComponent.class, BoundsComponent.class).get());
+		squirrels = engine.getEntitiesFor(Family.all(SquirrelComponent.class, BoundsComponent.class).get());
+		springs = engine.getEntitiesFor(Family.all(SpringComponent.class, BoundsComponent.class, TransformComponent.class).get());
+		castles = engine.getEntitiesFor(Family.all(CastleComponent.class, BoundsComponent.class).get());
+		platforms = engine.getEntitiesFor(Family.all(PlatformComponent.class, BoundsComponent.class, TransformComponent.class).get());
 	}
 	
 	@Override

@@ -31,9 +31,9 @@ public class SquirrelSystem extends IteratingSystem {
 	private ComponentMapper<MovementComponent> mm;
 	
 	public SquirrelSystem() {
-		super(Family.getFor(SquirrelComponent.class,
+		super(Family.all(SquirrelComponent.class,
 							TransformComponent.class,
-							MovementComponent.class));
+							MovementComponent.class).get());
 		
 		tm = ComponentMapper.getFor(TransformComponent.class);
 		mm = ComponentMapper.getFor(MovementComponent.class);

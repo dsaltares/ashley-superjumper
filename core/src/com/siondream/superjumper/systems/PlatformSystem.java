@@ -28,10 +28,10 @@ import com.siondream.superjumper.components.TransformComponent;
 import com.siondream.superjumper.components.StateComponent;
 
 public class PlatformSystem extends IteratingSystem {
-	private static final Family family = Family.getFor(PlatformComponent.class,
+	private static final Family family = Family.all(PlatformComponent.class,
 													   StateComponent.class,
 												       TransformComponent.class,
-													   MovementComponent.class);
+													   MovementComponent.class).get();
 	private Engine engine;
 	
 	private ComponentMapper<TransformComponent> tm;

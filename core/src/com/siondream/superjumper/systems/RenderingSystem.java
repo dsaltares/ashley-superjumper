@@ -43,7 +43,7 @@ public class RenderingSystem extends IteratingSystem {
 	private ComponentMapper<TransformComponent> transformM;
 	
 	public RenderingSystem(SpriteBatch batch) {
-		super(Family.getFor(TransformComponent.class, TextureComponent.class));
+		super(Family.all(TransformComponent.class, TextureComponent.class).get());
 		
 		textureM = ComponentMapper.getFor(TextureComponent.class);
 		transformM = ComponentMapper.getFor(TransformComponent.class);

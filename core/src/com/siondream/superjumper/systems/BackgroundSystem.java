@@ -29,7 +29,7 @@ public class BackgroundSystem extends IteratingSystem {
 	private ComponentMapper<TransformComponent> tm;
 	
 	public BackgroundSystem() {
-		super(Family.getFor(BackgroundComponent.class));
+		super(Family.all(BackgroundComponent.class).get());
 		tm = ComponentMapper.getFor(TransformComponent.class);
 	}
 	

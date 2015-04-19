@@ -27,10 +27,10 @@ import com.siondream.superjumper.components.TransformComponent;
 import com.siondream.superjumper.components.StateComponent;
 
 public class BobSystem extends IteratingSystem {
-	private static final Family family = Family.getFor(BobComponent.class,
+	private static final Family family = Family.all(BobComponent.class,
 													   StateComponent.class,
 													   TransformComponent.class,
-													   MovementComponent.class);
+													   MovementComponent.class).get();
 	
 	private float accelX = 0.0f;
 	private World world;

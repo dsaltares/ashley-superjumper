@@ -29,7 +29,7 @@ public class CameraSystem extends IteratingSystem {
 	private ComponentMapper<CameraComponent> cm;
 	
 	public CameraSystem() {
-		super(Family.getFor(CameraComponent.class));
+		super(Family.all(CameraComponent.class).get());
 		
 		tm = ComponentMapper.getFor(TransformComponent.class);
 		cm = ComponentMapper.getFor(CameraComponent.class);

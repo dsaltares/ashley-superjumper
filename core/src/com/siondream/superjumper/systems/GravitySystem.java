@@ -28,7 +28,7 @@ public class GravitySystem extends IteratingSystem {
 	private ComponentMapper<MovementComponent> mm;
 	
 	public GravitySystem() {
-		super(Family.getFor(GravityComponent.class, MovementComponent.class));
+		super(Family.all(GravityComponent.class, MovementComponent.class).get());
 		
 		mm = ComponentMapper.getFor(MovementComponent.class);
 	}
