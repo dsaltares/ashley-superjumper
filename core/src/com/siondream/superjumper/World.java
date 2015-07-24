@@ -158,6 +158,9 @@ public class World {
 		state.set(PlatformComponent.STATE_NORMAL);
 		
 		platform.type = type;
+		if (type == PlatformComponent.TYPE_MOVING) {
+			movement.velocity.x = rand.nextBoolean() ? PlatformComponent.VELOCITY : -PlatformComponent.VELOCITY;
+		}
 		
 		entity.add(animation);
 		entity.add(platform);
