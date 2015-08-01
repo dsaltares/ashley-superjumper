@@ -101,15 +101,15 @@ public class World {
 	
 	private Entity createBob() {
 		Entity entity = engine.createEntity();
-		
-		AnimationComponent animation = new AnimationComponent();
-		BobComponent bob = new BobComponent();
-		BoundsComponent bounds = new BoundsComponent();
-		GravityComponent gravity = new GravityComponent();
-		MovementComponent movement = new MovementComponent();
-		TransformComponent position = new TransformComponent();
-		StateComponent state = new StateComponent();
-		TextureComponent texture = new TextureComponent();
+
+		AnimationComponent animation = engine.createComponent(AnimationComponent.class);
+		BobComponent bob = engine.createComponent(BobComponent.class);
+		BoundsComponent bounds = engine.createComponent(BoundsComponent.class);
+		GravityComponent gravity = engine.createComponent(GravityComponent.class);
+		MovementComponent movement = engine.createComponent(MovementComponent.class);
+		TransformComponent position = engine.createComponent(TransformComponent.class);
+		StateComponent state = engine.createComponent(StateComponent.class);
+		TextureComponent texture = engine.createComponent(TextureComponent.class);
 		
 		animation.animations.put(BobComponent.STATE_FALL, Assets.bobFall);
 		animation.animations.put(BobComponent.STATE_HIT, Assets.bobHit);
@@ -139,13 +139,13 @@ public class World {
 	private void createPlatform(int type, float x, float y) {
 		Entity entity = new Entity();//engine.createEntity();
 		
-		AnimationComponent animation = new AnimationComponent();
-		PlatformComponent platform = new PlatformComponent();
-		BoundsComponent bounds = new BoundsComponent();
-		MovementComponent movement = new MovementComponent();
-		TransformComponent position = new TransformComponent();
-		StateComponent state = new StateComponent();
-		TextureComponent texture = new TextureComponent();
+		AnimationComponent animation = engine.createComponent(AnimationComponent.class);
+		PlatformComponent platform = engine.createComponent(PlatformComponent.class);
+		BoundsComponent bounds = engine.createComponent(BoundsComponent.class);
+		MovementComponent movement = engine.createComponent(MovementComponent.class);
+		TransformComponent position = engine.createComponent(TransformComponent.class);
+		StateComponent state = engine.createComponent(StateComponent.class);
+		TextureComponent texture = engine.createComponent(TextureComponent.class);
 		
 		animation.animations.put(PlatformComponent.STATE_NORMAL, Assets.platform);
 		animation.animations.put(PlatformComponent.STATE_PULVERIZING, Assets.breakingPlatform);
@@ -176,10 +176,10 @@ public class World {
 	private void createSpring(float x, float y) {
 		Entity entity = engine.createEntity();
 		
-		SpringComponent spring = new SpringComponent();
-		BoundsComponent bounds = new BoundsComponent();
-		TransformComponent position = new TransformComponent();
-		TextureComponent texture = new TextureComponent();
+		SpringComponent spring = engine.createComponent(SpringComponent.class);
+		BoundsComponent bounds = engine.createComponent(BoundsComponent.class);
+		TransformComponent position = engine.createComponent(TransformComponent.class);
+		TextureComponent texture = engine.createComponent(TextureComponent.class);
 		
 		bounds.bounds.width = SpringComponent.WIDTH;
 		bounds.bounds.height = SpringComponent.HEIGHT;
@@ -199,13 +199,13 @@ public class World {
 	private void createSquirrel(float x, float y) {
 		Entity entity = engine.createEntity();
 		
-		AnimationComponent animation = new AnimationComponent();
-		SquirrelComponent squirrel = new SquirrelComponent();
-		BoundsComponent bounds = new BoundsComponent();
-		MovementComponent movement = new MovementComponent();
-		TransformComponent position = new TransformComponent();
-		StateComponent state = new StateComponent();
-		TextureComponent texture = new TextureComponent();
+		AnimationComponent animation = engine.createComponent(AnimationComponent.class);
+		SquirrelComponent squirrel = engine.createComponent(SquirrelComponent.class);
+		BoundsComponent bounds = engine.createComponent(BoundsComponent.class);
+		MovementComponent movement = engine.createComponent(MovementComponent.class);
+		TransformComponent position = engine.createComponent(TransformComponent.class);
+		StateComponent state = engine.createComponent(StateComponent.class);
+		TextureComponent texture = engine.createComponent(TextureComponent.class);
 		
 		movement.velocity.x = rand.nextFloat() > 0.5f ? SquirrelComponent.VELOCITY : -SquirrelComponent.VELOCITY;
 		
@@ -232,12 +232,12 @@ public class World {
 	private void createCoin(float x, float y) {
 		Entity entity = engine.createEntity();
 		
-		AnimationComponent animation = new AnimationComponent();
-		StateComponent state = new StateComponent();
-		CoinComponent coin = new CoinComponent();
-		BoundsComponent bounds = new BoundsComponent();
-		TransformComponent position = new TransformComponent();
-		TextureComponent texture = new TextureComponent();
+		AnimationComponent animation = engine.createComponent(AnimationComponent.class);
+		CoinComponent coin = engine.createComponent(CoinComponent.class);
+		BoundsComponent bounds = engine.createComponent(BoundsComponent.class);
+		TransformComponent position = engine.createComponent(TransformComponent.class);
+		StateComponent state = engine.createComponent(StateComponent.class);
+		TextureComponent texture = engine.createComponent(TextureComponent.class);
 		
 		animation.animations.put(CoinComponent.STATE_NORMAL, Assets.coinAnim);
 		
@@ -261,10 +261,10 @@ public class World {
 	private void createCastle(float x, float y) {
 		Entity entity = engine.createEntity();
 		
-		CastleComponent castle = new CastleComponent();
-		BoundsComponent bounds = new BoundsComponent();
-		TransformComponent position = new TransformComponent();
-		TextureComponent texture = new TextureComponent();
+		CastleComponent castle = engine.createComponent(CastleComponent.class);
+		BoundsComponent bounds = engine.createComponent(BoundsComponent.class);
+		TransformComponent position = engine.createComponent(TransformComponent.class);
+		TextureComponent texture = engine.createComponent(TextureComponent.class);
 		
 		bounds.bounds.width = CastleComponent.WIDTH;
 		bounds.bounds.height = CastleComponent.HEIGHT;
@@ -296,9 +296,9 @@ public class World {
 	private void createBackground() {
 		Entity entity = engine.createEntity();
 		
-		BackgroundComponent background = new BackgroundComponent();
-		TransformComponent position = new TransformComponent();
-		TextureComponent texture = new TextureComponent();
+		BackgroundComponent background = engine.createComponent(BackgroundComponent.class);
+		TransformComponent position = engine.createComponent(TransformComponent.class);
+		TextureComponent texture = engine.createComponent(TextureComponent.class);
 		
 		texture.region = Assets.backgroundRegion;
 		
