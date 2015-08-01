@@ -16,12 +16,13 @@
 
 package com.siondream.superjumper;
 
-import com.badlogic.ashley.core.Engine;
+import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.siondream.superjumper.systems.AnimationSystem;
@@ -57,7 +58,8 @@ public class GameScreen extends ScreenAdapter {
 	int lastScore;
 	String scoreString;
 	
-	Engine engine;
+	PooledEngine engine;
+	private GlyphLayout layout = new GlyphLayout();
 	
 	private int state;
 
@@ -90,7 +92,7 @@ public class GameScreen extends ScreenAdapter {
 			}
 		};
 		
-		engine = new Engine();
+		engine = new PooledEngine();
 		
 		world = new World(engine);
 		
@@ -271,15 +273,21 @@ public class GameScreen extends ScreenAdapter {
 	private void presentLevelEnd () {
 		String topText = "the princess is ...";
 		String bottomText = "in another castle!";
-		float topWidth = Assets.font.getBounds(topText).width;
-		float bottomWidth = Assets.font.getBounds(bottomText).width;
+		
+		layout.setText(Assets.font, topText);
+		float topWidth = layout.width;
+		
+		layout.setText(Assets.font, bottomText);
+		float bottomWidth = layout.width;
 		Assets.font.draw(game.batcher, topText, 160 - topWidth / 2, 480 - 40);
 		Assets.font.draw(game.batcher, bottomText, 160 - bottomWidth / 2, 40);
 	}
 
 	private void presentGameOver () {
 		game.batcher.draw(Assets.gameOver, 160 - 160 / 2, 240 - 96 / 2, 160, 96);
-		float scoreWidth = Assets.font.getBounds(scoreString).width;
+		
+		layout.setText(Assets.font, scoreString);
+		float scoreWidth = layout.width;
 		Assets.font.draw(game.batcher, scoreString, 160 - scoreWidth / 2, 480 - 20);
 	}
 	

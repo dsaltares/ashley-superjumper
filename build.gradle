@@ -19,7 +19,8 @@ allprojects {
     version = '1.0'
     ext {
         appName = 'ashley-superjumper'
-        gdxVersion = '1.5.5'
+        gdxVersion = '1.6.4'
+        ashleyVersion = '1.6.0'
         roboVMVersion = '1.0'
     }
 
@@ -53,7 +54,7 @@ project(":android") {
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi-v7a"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86"
-        compile "com.badlogicgames.ashley:ashley:1.4.1-SNAPSHOT"
+        compile "com.badlogicgames.ashley:ashley:$ashleyVersion"
     }
 }
 
@@ -82,7 +83,7 @@ project(":html") {
         compile "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx:$gdxVersion:sources"
         compile "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion:sources"
-        compile "com.badlogicgames.ashley:ashley:1.4.1-SNAPSHOT:sources"
+        compile "com.badlogicgames.ashley:ashley:$ashleyVersion:sources"
     }
 }
 
@@ -92,7 +93,7 @@ project(":core") {
 
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
-        compile "com.badlogicgames.ashley:ashley:1.4.1-SNAPSHOT"
+        compile "com.badlogicgames.ashley:ashley:$ashleyVersion"
     }
 }
 

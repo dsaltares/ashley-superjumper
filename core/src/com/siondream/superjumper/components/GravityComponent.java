@@ -18,6 +18,6 @@ package com.siondream.superjumper.components;
 
 import com.badlogic.ashley.core.Component;
 
-public class GravityComponent extends Component {
+public class GravityComponent implements Component {
 
 }

@@ -18,7 +18,7 @@ package com.siondream.superjumper.components;
 
 import com.badlogic.ashley.core.Component;
 
-public class BobComponent extends Component {
+public class BobComponent implements Component {
 	public static final int STATE_JUMP = 0;
 	public static final int STATE_FALL = 1;
 	public static final int STATE_HIT = 2;

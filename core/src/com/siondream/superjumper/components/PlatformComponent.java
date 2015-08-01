@@ -18,7 +18,7 @@ package com.siondream.superjumper.components;
 
 import com.badlogic.ashley.core.Component;
 
-public class PlatformComponent extends Component {
+public class PlatformComponent implements Component {
 	public static final float WIDTH = 2;
 	public static final float HEIGHT = 0.5f;
 	public static final int TYPE_STATIC = 0;

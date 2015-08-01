@@ -18,8 +18,8 @@ package com.siondream.superjumper;
 
 import java.util.Random;
 
-import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.siondream.superjumper.components.AnimationComponent;
@@ -53,9 +53,9 @@ public class World {
 	public int score;
 	public int state;
 	
-	private Engine engine;
+	private PooledEngine engine;
 
-	public World (Engine engine) {
+	public World (PooledEngine engine) {
 		this.engine = engine;
 		this.rand = new Random();
 	}
@@ -100,7 +100,7 @@ public class World {
 	}
 	
 	private Entity createBob() {
-		Entity entity = new Entity();
+		Entity entity = engine.createEntity();
 		
 		AnimationComponent animation = new AnimationComponent();
 		BobComponent bob = new BobComponent();
@@ -137,7 +137,7 @@ public class World {
 	}
 	
 	private void createPlatform(int type, float x, float y) {
-		Entity entity = new Entity();
+		Entity entity = new Entity();//engine.createEntity();
 		
 		AnimationComponent animation = new AnimationComponent();
 		PlatformComponent platform = new PlatformComponent();
@@ -174,7 +174,7 @@ public class World {
 	}
 	
 	private void createSpring(float x, float y) {
-		Entity entity = new Entity();
+		Entity entity = engine.createEntity();
 		
 		SpringComponent spring = new SpringComponent();
 		BoundsComponent bounds = new BoundsComponent();
@@ -197,7 +197,7 @@ public class World {
 	}
 	
 	private void createSquirrel(float x, float y) {
-		Entity entity = new Entity();
+		Entity entity = engine.createEntity();
 		
 		AnimationComponent animation = new AnimationComponent();
 		SquirrelComponent squirrel = new SquirrelComponent();
@@ -230,7 +230,7 @@ public class World {
 	}
 	
 	private void createCoin(float x, float y) {
-		Entity entity = new Entity();
+		Entity entity = engine.createEntity();
 		
 		AnimationComponent animation = new AnimationComponent();
 		StateComponent state = new StateComponent();
@@ -259,7 +259,7 @@ public class World {
 	}
 	
 	private void createCastle(float x, float y) {
-		Entity entity = new Entity();
+		Entity entity = engine.createEntity();
 		
 		CastleComponent castle = new CastleComponent();
 		BoundsComponent bounds = new BoundsComponent();
@@ -282,7 +282,7 @@ public class World {
 	}
 	
 	private void createCamera(Entity target) {
-		Entity entity = new Entity();
+		Entity entity = engine.createEntity();
 		
 		CameraComponent camera = new CameraComponent();
 		camera.camera = engine.getSystem(RenderingSystem.class).getCamera();
@@ -294,7 +294,7 @@ public class World {
 	}
 	
 	private void createBackground() {
-		Entity entity = new Entity();
+		Entity entity = engine.createEntity();
 		
 		BackgroundComponent background = new BackgroundComponent();
 		TransformComponent position = new TransformComponent();

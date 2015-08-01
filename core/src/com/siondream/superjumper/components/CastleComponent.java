@@ -18,7 +18,7 @@ package com.siondream.superjumper.components;
 
 import com.badlogic.ashley.core.Component;
 
-public class CastleComponent extends Component {
+public class CastleComponent implements Component {
 	public static float WIDTH = 1.7f;
 	public static float HEIGHT = 1.7f;
 }
