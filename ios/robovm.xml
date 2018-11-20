@@ -19,7 +19,7 @@
   </resources>
   <forceLinkClasses>
     <pattern>com.badlogic.gdx.scenes.scene2d.ui.*</pattern>
-    <pattern>com.badlogic.gdx.physics.bullet.**</pattern>
+    <pattern>com.badlogic.gdx.graphics.g3d.particles.**</pattern>
     <pattern>com.android.okhttp.HttpHandler</pattern>
     <pattern>com.android.okhttp.HttpsHandler</pattern>
     <pattern>com.android.org.conscrypt.**</pattern>
@@ -33,8 +33,7 @@
     <pattern>org.apache.harmony.security.provider.crypto.CryptoProvider</pattern>
   </forceLinkClasses>
   <libs>
-    <lib>build/libs/ios/libgdx.a</lib>
-    <lib>build/libs/ios/libObjectAL.a</lib>
+      <lib>z</lib>   
   </libs>
   <frameworks>
     <framework>UIKit</framework>

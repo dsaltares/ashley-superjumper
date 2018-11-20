@@ -42,13 +42,13 @@ public class Assets {
 	public static TextureRegion pause;
 	public static TextureRegion spring;
 	public static TextureRegion castle;
-	public static Animation coinAnim;
-	public static Animation bobJump;
-	public static Animation bobFall;
-	public static Animation bobHit;
-	public static Animation squirrelFly;
-	public static Animation platform;
-	public static Animation breakingPlatform;
+	public static Animation<TextureRegion> coinAnim;
+	public static Animation<TextureRegion> bobJump;
+	public static Animation<TextureRegion> bobFall;
+	public static Animation<TextureRegion> bobHit;
+	public static Animation<TextureRegion> squirrelFly;
+	public static Animation<TextureRegion> platform;
+	public static Animation<TextureRegion> breakingPlatform;
 	public static BitmapFont font;
 
 	public static Music music;
@@ -80,14 +80,14 @@ public class Assets {
 
 		spring = new TextureRegion(items, 128, 0, 32, 32);
 		castle = new TextureRegion(items, 128, 64, 64, 64);
-		coinAnim = new Animation(0.2f, new TextureRegion(items, 128, 32, 32, 32), new TextureRegion(items, 160, 32, 32, 32),
+		coinAnim = new Animation<TextureRegion>(0.2f, new TextureRegion(items, 128, 32, 32, 32), new TextureRegion(items, 160, 32, 32, 32),
 			new TextureRegion(items, 192, 32, 32, 32), new TextureRegion(items, 160, 32, 32, 32));
-		bobJump = new Animation(0.2f, new TextureRegion(items, 0, 128, 32, 32), new TextureRegion(items, 32, 128, 32, 32));
-		bobFall = new Animation(0.2f, new TextureRegion(items, 64, 128, 32, 32), new TextureRegion(items, 96, 128, 32, 32));
-		bobHit = new Animation(0.2f, new TextureRegion(items, 128, 128, 32, 32));
-		squirrelFly = new Animation(0.2f, new TextureRegion(items, 0, 160, 32, 32), new TextureRegion(items, 32, 160, 32, 32));
-		platform = new Animation(0.2f, new TextureRegion(items, 64, 160, 64, 16));
-		breakingPlatform = new Animation(0.2f, new TextureRegion(items, 64, 160, 64, 16), new TextureRegion(items, 64, 176, 64, 16),
+		bobJump = new Animation<TextureRegion>(0.2f, new TextureRegion(items, 0, 128, 32, 32), new TextureRegion(items, 32, 128, 32, 32));
+		bobFall = new Animation<TextureRegion>(0.2f, new TextureRegion(items, 64, 128, 32, 32), new TextureRegion(items, 96, 128, 32, 32));
+		bobHit = new Animation<TextureRegion>(0.2f, new TextureRegion(items, 128, 128, 32, 32));
+		squirrelFly = new Animation<TextureRegion>(0.2f, new TextureRegion(items, 0, 160, 32, 32), new TextureRegion(items, 32, 160, 32, 32));
+		platform = new Animation<TextureRegion>(0.2f, new TextureRegion(items, 64, 160, 64, 16));
+		breakingPlatform = new Animation<TextureRegion>(0.2f, new TextureRegion(items, 64, 160, 64, 16), new TextureRegion(items, 64, 176, 64, 16),
 			new TextureRegion(items, 64, 192, 64, 16), new TextureRegion(items, 64, 208, 64, 16));
 
 		font = new BitmapFont(Gdx.files.internal("data/font.fnt"), Gdx.files.internal("data/font.png"), false);

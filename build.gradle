@@ -1,17 +1,20 @@
 buildscript {
-    repositories {
-        maven {
-            url 'https://github.com/steffenschaefer/gwt-gradle-plugin/raw/maven-repo/'
-        }
-        mavenCentral()
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-		jcenter()
-    }
+    
 
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url "https://plugins.gradle.org/m2/" }
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        jcenter()
+        google()
+    }
     dependencies {
-    	classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
-        classpath 'com.android.tools.build:gradle:1.2.3'
-        classpath 'org.robovm:robovm-gradle-plugin:1.9.0'
+        classpath 'org.wisepersist:gwt-gradle-plugin:1.0.6'
+        classpath 'com.android.tools.build:gradle:3.2.0'
+        classpath 'com.mobidevelop.robovm:robovm-gradle-plugin:2.3.5'
+        
+
     }
 }
 
@@ -21,15 +24,18 @@ allprojects {
 
     version = '1.0'
     ext {
-        appName = 'ashley-superjumper'
-        gdxVersion = '1.7.1'
+        appName = "ashley-superjumper"
+        gdxVersion = '1.9.8'
+        roboVMVersion = '2.3.5'
+        box2DLightsVersion = '1.4'
         ashleyVersion = '1.7.0'
-        roboVMVersion = '1.9.0'
+        aiVersion = '1.8.0'
     }
 
     repositories {
         mavenLocal()
         mavenCentral()
+        google()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
     }
@@ -43,6 +49,8 @@ project(":desktop") {
         compile project(":core")
         compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+        compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
+        
     }
 }
 
@@ -56,8 +64,17 @@ project(":android") {
         compile "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi-v7a"
+        natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-arm64-v8a"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86"
+        natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86_64"
+        compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+        natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi"
+        natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi-v7a"
+        natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-arm64-v8a"
+        natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86"
+        natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86_64"
         compile "com.badlogicgames.ashley:ashley:$ashleyVersion"
+        
     }
 }
 
@@ -65,14 +82,15 @@ project(":ios") {
     apply plugin: "java"
     apply plugin: "robovm"
 
-    configurations { natives }
 
     dependencies {
         compile project(":core")
-        compile "org.robovm:robovm-rt:${roboVMVersion}"
-        compile "org.robovm:robovm-cocoatouch:${roboVMVersion}"
+        compile "com.mobidevelop.robovm:robovm-rt:$roboVMVersion"
+        compile "com.mobidevelop.robovm:robovm-cocoatouch:$roboVMVersion"
         compile "com.badlogicgames.gdx:gdx-backend-robovm:$gdxVersion"
-        natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-ios"
+        compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-ios"
+        compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-ios"
+        
     }
 }
 
@@ -86,7 +104,10 @@ project(":html") {
         compile "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx:$gdxVersion:sources"
         compile "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion:sources"
+        compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion:sources"
+        compile "com.badlogicgames.gdx:gdx-box2d-gwt:$gdxVersion:sources"
         compile "com.badlogicgames.ashley:ashley:$ashleyVersion:sources"
+        
     }
 }
 
@@ -96,7 +117,9 @@ project(":core") {
 
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+        compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         compile "com.badlogicgames.ashley:ashley:$ashleyVersion"
+        
     }
 }
 
